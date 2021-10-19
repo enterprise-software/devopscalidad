@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # TODO: Set WEBHOOK to webhook ID (without URL)
-WEBHOOK="73e00c1d-8c04-41a9-9065-5a34cd99e36d"
+WEBHOOK="a850dbd3-8224-4154-9de4-930ff58acffc"
 
 API_ENDPOINT="https://api.crashtest.cloud/webhook"
 
