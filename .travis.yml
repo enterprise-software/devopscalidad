@@ -1,7 +1,15 @@
 language: java
+
+sudo: required
+
+services:
+  - docker
+
 before_install:
   - chmod +x mvnw
   - chmod +x start_crashtest.sh
+  - docker pull openjdk:15
+  - docker build -t devopsloscalidosos.jar .
 
 addons:
     sonarcloud:
@@ -10,6 +18,8 @@ addons:
             secure: Rah/OHnpHZEiiF0fnOcvdfmXHvDnLhiFeHA0GfeVM+DKKTjWuh1ucxNNl2JvmXsj2ED/3zbvqN3+sv4VHKDevdyJXWvSZ8CMHXtVBwgOA7tjHA4efCSY71+6sQlMd0Y3rygaT1hnIVGY8XejY/OQe4281U8Ep0eahxV3oepEktpe/PLTVuPM483SlvSe6Z284pdJm+TjuirWCjoY23kNGpuwOmmoqhKJ/Dtau0jft2nj/aekxx7DO1Ipoh7ReUxA7jmTP3Me0P1tfrEKn/agHzQaHezse+eySjs+6zPCXDqC4TaE/kSsLAbM/RyA3UwlkchxEfBDZ4JiSMvwZqs+e4AUC05qy367MMqXKvhKAGTrSxny0C5PECryGL7oZOBSdeAxOqkKohr0Y48gTKBeALmy5TvnH73UIBx3IzkOe750Gf3CZoR5svwzrCJGIje73tIkDu9nZ8rcKbwrSny0Mm9tqrttmwNrI2/7F6Bx9BxYvX2m4R3ZucikuorQ6LEbUoQ7cP4+hhs0jk/sTwWflyB0bTRLisp5AvJJnSR8P8x/aUAoZstB0QOFdHZ2AgqD3Ua95ACCq/k2rgdwOXJHWWIUChn1RTDLiHy7zk/q3o58HDRwEtJe1xtzxig3SifOoLFBE5cStz5juA0fv35ULbP7W7ykuHOwqPP0vgaveac=
 script:
     - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+    - docker run --name devopsloscalidosos.jar devopsloscalidosos.jar:latest
+
 jobs:
   include:
     - stage: deploy
