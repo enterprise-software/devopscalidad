@@ -12,6 +12,6 @@ EXPOSE 8080
 ARG JAR_FILE=build/libs/devopsloscalidosos.jar
 
 # Add the application's jar to the container
-ADD ${JAR_FILE} devopsloscalidosos.jar
+ADD ${JAR_FILE} ${directo}
 
 ENTRYPOINT ["java","-jar","devopsloscalidosos.jar"]
