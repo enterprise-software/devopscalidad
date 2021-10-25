@@ -5,10 +5,15 @@ sudo: required
 services:
   - docker
 
+env:
+  global:
+    - secure: "m+/CH8BTFruGF7Bg2hrf7D+kX6Zz3Bp6DHSe75jy0tGiyPFMERdL+axxKlpcQodMzRvqmY0LNa3fv9UJkSAht5j86JEGFefxRzHMb8nwGMsv/lWvSZp0xIZmWL76Vtw6QBl9HIxjnICN5JmM6urMvKHI0qU7wMsfESBlBxuhc7LDG6YXcN1I1+DdHMgoAGadIXScvRzzwA3+79A1dw9NvTlqKUJUcWoviySTn4SxCbEs19y4HBW9GHoWVVZ2PuUh1kfKl3XnjaZkwxK/tgs9J1KCw0albNOXQ7Q46uhdwKdN7TBneqSEa20DLvaYYa1yRY+RxS76HIN2MeeQ5V2hufCOlN1z/NIxKopGWfH8K6MSokQRIUZNbnKp7SSvmaOb6o60s63vqSH1xmJukFTnHFHwyY7VqZMwqeHsvczMNSdRMJfiKysRdjRLWTOMYs5IR+08Xdhd9TdtSp0wRI4iU4/9/liaBF2XgttjA3Ox561KkXI3/4yxaW4CpRTsRpdyW7N7O2SAk7s127WRDze94UvXtSNf7XvjuawVQ5Wu+JdC3PBu34xAqORsIeERy5ZjorHzMysgwcl8xD19JFUyx7uchoPOhO6D/i7JyTRied6t7JaBAqxnGmzC+AmfSf7XuaG4iFrX1+EsbcCV9Y+1D1OqnRbedszfLydPyyhMIxw="
+    - secure: "mZ6hj6aeAOqXVpeDBLmkxtya8HMnvBrd6LO5ZBL6L9I6vQX8vouP818q9srUk+kAonlLQ9zTSFxrzbx6wyJiCPbosM7gRnny7tsucJzVzHy9mhoNDLzXwFSucs+BdCOK/4DihbiROeT7icNJknE+R0tSNr50AR72+SnIsBuAhRph6G6jMLB5+9KnYspsey9CjVYtNrK3TIYxcib9OpMiii4Ma9q9oWdkrtrMTBTB4uIK3voMY6I16+bEYuEmVbKtnazkTSR39S5W6TS3cmjOnLZ+75vKyGZGfuFl4dxBZNBVlQ19OLVZ0sjtaFgV4Yyr9a1kZj1XX+u0jkV6oSDr3bJDPRru1396DhRbOw/nQ4ZMTuqR4+iBXYSIVWbgjMY5H8FACPPPJvLtGYGsiwGOryfFv408gwpzkZTc0l91qxzs0qXvdW+X1f5VX83g5o1TrT44+Vd2kWBBFZYPDVuxjMhz4DHSEbK0uHI7uIEEyCO2GFVpZABoX0+DXIMVFugWD5uKZ5+7Aq5skom3hqA1fb2E4nleJIUQvWTVCBRnlLRbUc56GCofEI0zkTbIFaG1Mh0Kkye+/UeJgs6riI3huFWWe40RWFJqyyIQpoUHWnp6BvsHceAIQf6o6ya9PA33X9m8ZYus4p30r7aX1maQjoBe+oRybbT+qs3PeriLbdc="
+    - COMMIT=${TRAVIS_COMMIT::7}
+
 before_install:
   - chmod +x mvnw
   - chmod +x start_crashtest.sh
-  - docker pull openjdk:15
 
 addons:
     sonarcloud:
@@ -17,6 +22,14 @@ addons:
             secure: Rah/OHnpHZEiiF0fnOcvdfmXHvDnLhiFeHA0GfeVM+DKKTjWuh1ucxNNl2JvmXsj2ED/3zbvqN3+sv4VHKDevdyJXWvSZ8CMHXtVBwgOA7tjHA4efCSY71+6sQlMd0Y3rygaT1hnIVGY8XejY/OQe4281U8Ep0eahxV3oepEktpe/PLTVuPM483SlvSe6Z284pdJm+TjuirWCjoY23kNGpuwOmmoqhKJ/Dtau0jft2nj/aekxx7DO1Ipoh7ReUxA7jmTP3Me0P1tfrEKn/agHzQaHezse+eySjs+6zPCXDqC4TaE/kSsLAbM/RyA3UwlkchxEfBDZ4JiSMvwZqs+e4AUC05qy367MMqXKvhKAGTrSxny0C5PECryGL7oZOBSdeAxOqkKohr0Y48gTKBeALmy5TvnH73UIBx3IzkOe750Gf3CZoR5svwzrCJGIje73tIkDu9nZ8rcKbwrSny0Mm9tqrttmwNrI2/7F6Bx9BxYvX2m4R3ZucikuorQ6LEbUoQ7cP4+hhs0jk/sTwWflyB0bTRLisp5AvJJnSR8P8x/aUAoZstB0QOFdHZ2AgqD3Ua95ACCq/k2rgdwOXJHWWIUChn1RTDLiHy7zk/q3o58HDRwEtJe1xtzxig3SifOoLFBE5cStz5juA0fv35ULbP7W7ykuHOwqPP0vgaveac=
 script:
     - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export IMAGE_NAME=sivaprasadreddy/jblogger
+  - docker build -t $IMAGE_NAME:$COMMIT .
+  - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+  - docker push $IMAGE_NAME
 
 jobs:
   include:
