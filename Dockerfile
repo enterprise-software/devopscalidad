@@ -1,6 +1,6 @@
 FROM openjdk:15
 # Add Maintainer Info
-LABEL maintainer="durangoriveragmail.com>"
+LABEL maintainer="durangoriveragmail.com"
 
 # Add a volume pointing to /tmp
 VOLUME /tmp
