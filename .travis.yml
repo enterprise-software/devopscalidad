@@ -17,9 +17,6 @@ env:
 before_install:
   - chmod +x mvnw
   - chmod +x start_crashtest.sh
-  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
-  - echo "$HEROKU_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin registry.heroku.com
-
 
 addons:
     sonarcloud:
