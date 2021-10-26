@@ -33,11 +33,6 @@ after_success:
   - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME
 
-jobs:
-  include:
-    - stage: deploy
-      script: ./start_crashtest.sh
-
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
