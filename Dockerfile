@@ -1,6 +1,7 @@
 FROM fabric8/java-alpine-openjdk8-jre
 VOLUME /tmp
-ADD target/devsecopslocalidosos.0.0.1-SNAPSHOT.jar devsecopslocalidosos.0.0.1-SNAPSHOT.jar
+COPY "./target/devsecopslocalidosos.0.0.1-SNAPSHOT.jar" "devsecopslocalidosos.0.0.1-SNAPSHOT.jar"
+#COPY "target/devsecopslocalidosos.0.0.1-SNAPSHOT.jar" "devsecopslocalidosos.0.0.1-SNAPSHOT.jar"
 RUN sh -c 'touch /devsecopslocalidosos.0.0.1-SNAPSHOT.jar'
 ENV JAVA_OPTS="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8787,suspend=n"
 ENV SPRING_PROFILES_ACTIVE "docker"
