@@ -1,13 +1,8 @@
-FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean install
-
-# 2. Just using the build artifact and then removing the build-container
-FROM openjdk:11-jdk
+FROM fabric8/java-alpine-openjdk8-jre
 VOLUME /tmp
-
-# Add Spring Boot app.jar to Container
-COPY --from=0 "/home/app/target/devsecopslocalidosos-*-SNAPSHOT.jar" app.jar
-# Fire up our Spring Boot app by default
-CMD [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+ADD target/devopsloscalidosos.jar devopsloscalidosos.jar
+RUN sh -c 'touch /devopsloscalidosos.jar'
+ENV JAVA_OPTS="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8787,suspend=n"
+ENV SPRING_PROFILES_ACTIVE "docker"
+EXPOSE 8080 8787
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE -jar /devopsloscalidosos.jar" ]
