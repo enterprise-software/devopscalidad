@@ -25,11 +25,6 @@ public class LoggingController {
     @Autowired
     private ILoggingService loggingService;
 
-    @GetMapping
-    public String findAll() {
-        return "Hi";
-    }
-
     @GetMapping(value = "/warning")
     public String warning() {
         return loggingService.warning();
