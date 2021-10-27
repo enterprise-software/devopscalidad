@@ -17,6 +17,7 @@ env:
 before_install:
   - chmod +x mvnw
   - chmod +x start_crashtest.sh
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
 addons:
     sonarcloud:
@@ -29,13 +30,18 @@ script:
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+  - docker images
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   - export IMAGE_NAME=enriquedurango2019/devopsloscalidosos
   - docker build -t $IMAGE_NAME:$COMMIT .
   - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME
+  - heroku container:push web --app $HEROKU_APP_NAME
+  - heroku container:release web --app $HEROKU_APP_NAME
 
-deploy:
-  provider: heroku
-  api_key: $HEROKU_API_KEY
-  app: devsecopsloscalidososkdj1
+#deploy:
+#  provider: heroku
+#  api_key: $HEROKU_API_KEY
+#  app: devsecopsloscalidososkdj1
+
