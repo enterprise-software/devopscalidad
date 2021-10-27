@@ -28,7 +28,7 @@ jobs:
         - docker images
         - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
         - docker build -t $DOCKER_USERNAME/$HEROKU_APP_NAME -f Dockerfile .
-        - echo "HEROKU_API_KEY" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+        - echo "$HEROKU_API_KEY" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
         - docker images
         - docker tag $DOCKER_USERNAME/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
         - docker push $DOCKER_USERNAME/$HEROKU_APP_NAME
