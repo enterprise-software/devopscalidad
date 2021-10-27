@@ -14,7 +14,8 @@ before_install:
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 #  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
   - echo "$HEROKU_PASSWORD" | docker login --username="$HEROKU_USERNAME" --password-stdin registry.heroku.com
-  - heroku container:login
+#  - heroku container:login
+  - heroku auth:token
 
 addons:
     sonarcloud:
