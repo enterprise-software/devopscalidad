@@ -12,7 +12,9 @@ before_install:
   - chmod +x start_crashtest.sh
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
-  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+#  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+  - echo "$HEROKU_PASSWORD" | docker login --username="$HEROKU_USERNAME" --password-stdin registry.heroku.com
+  - heroku container:login
 
 addons:
     sonarcloud:
@@ -32,7 +34,6 @@ jobs:
         - docker images
         - docker tag $DOCKER_USERNAME/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
         - docker push $DOCKER_USERNAME/$HEROKU_APP_NAME
-        - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
         - heroku container:push web --app $HEROKU_APP_NAME
         - heroku container:release web --app $HEROKU_APP_NAME
 
