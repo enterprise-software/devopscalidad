@@ -24,7 +24,7 @@ script:
   - docker build -t travis-ci-build-stages-demo -f Dockerfile .
   - docker images
   - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
-  - docker build -t enriquedurango2019/devopsloscalidosos -f Dockerfile .
+  - docker build -t enriquedurango2019/devsecopsloscalidososkdj1 -f Dockerfile .
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
   - docker images
   - docker tag $DOCKER_USERNAME/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
