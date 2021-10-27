@@ -1,4 +1,4 @@
-FROM fabric8/java-alpine-openjdk8-jre
+FROM adoptopenjdk/maven-openjdk11
 VOLUME /tmp
 ADD target/devopsloscalidosos.jar devopsloscalidosos.jar
 #RUN sh -c 'touch /devopsloscalidosos.jar'
