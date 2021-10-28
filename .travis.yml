@@ -33,7 +33,7 @@ jobs:
         - echo "$HEROKU_API_KEY" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
         - docker images
         - docker tag $DOCKER_USERNAME/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
-        - docker push $DOCKER_USERNAME/$HEROKU_APP_NAME
+        - docker push$DOCKER_USERNAME/$HEROKU_APP_NAME
         - heroku container:push web --app $HEROKU_APP_NAME
         - heroku container:release web --app $HEROKU_APP_NAME
 
