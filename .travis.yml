@@ -24,7 +24,7 @@ addons:
 jobs:
   include:
     - stage: build
-      cript:
+      script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker build -t travis-ci-build-stages-demo -f Dockerfile.dev .
         - docker images
@@ -32,8 +32,8 @@ jobs:
         - docker build -t $DOCKER_USERNAME/$HEROKU_APP_NAME -f Dockerfile .
         - echo "$HEROKU_API_KEY" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
         - docker images
-        - docker tag $DOCKER_USERNAME/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
-        - docker push $DOCKER_USERNAME/$HEROKU_APP_NAME
+        - docker tag111
+        - docker push23134
         - heroku container:push web --app $HEROKU_APP_NAME
         - heroku container:release web --app $HEROKU_APP_NAME
 
