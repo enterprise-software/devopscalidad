@@ -22,14 +22,11 @@ addons:
     token:
       secure: "vUgT92jZqbyz6X2S0A6Nimu2QUYesgPR1lldZm2C/mj6zRFo/0cB1cDI7/NmbomG+QkP5/Id6+TLMiZcPBezmn+RJNqJ/gkO0dQdhMweg0uLpmFl5N/xtm/9+yw3595CIoV9+4WCKftwY4I0XHCG6NU2/I/jZiqnEgixFcrZcq95UHv0YV5PCJHQ79lr3aQMOgT8kJdZ6fU0nWx+ZdbS8yTCWgct8jY+gu9g6fv1mVYNeg14rbJAa/242oIpHsVvfngM1jMWsp1E+aBV3zR1kNBd0k70PejVJI9M2yswVLn7wFVDU0nj8EXsqDgUknCmcb2YTrGoSMpyY393oBF7IQkw6r1CDgzlS0DCjtJupxH87u+JRk+ZsK8PGN1T8V9MwkRwMNMmPFXxUUeQVR60VE/FLH8+LQmAP/HCC2O5SOQuTdU2BLlUo0H62vEPye2ZWg4t7ysPu0bo11aBpF9Qwlw3NT+ltp7z69Sm5qHaxYCPHg0IAeMhYcXEV9JN5ihHATYi1fdtuEzJh7GeKQ9borFhDzq4HJhfiwBdV1C47UcLgPF02Av7e77DleYoDx4ZgwYzI38pxzhEueF8NiCmW7z5EsUaH2p19D8lur0lddMzJiJfe8fp15K8vFB35lo9x0DCEbIXNlvNlOlpdDjfxNU3IovXqQ+a3ZjlVeYDftA="
 
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-
 jobs:
   include:
     - stage: build
       script:
+        - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=enterprise-software_devopscalidad
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker build -t travis-ci-build-stages-demo -f Dockerfile.dev .
         - docker images
