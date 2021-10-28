@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class OperationMathTest {
+class OperationMathTest {
 
     @Test
-    void sumTwoNumbers() throws Exception{
+    void sumTwoNumbers(){
         //Arrange
         Long number1 = 250L;
         Long number2 = 100L;
