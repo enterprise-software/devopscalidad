@@ -7,11 +7,7 @@ jdk:
 services:
   - docker
 
-#notifications:
-#  slack: devsecopsloscalidosos:hgUQd6hu0cDRbtA3Ig1V1TN0
-#    on_success: always  # change: send a notification when the build status changes.
-#    on_failure: always  # always: always send a notification.
-#    if: branch = master
+
 
 before_install:
   - chmod +x mvnw
@@ -40,3 +36,9 @@ jobs:
         - docker push $DOCKER_USERNAME/$HEROKU_APP_NAME
         - heroku container:push web --app $HEROKU_APP_NAME
         - heroku container:release web --app $HEROKU_APP_NAME
+
+notifications:
+  slack: devsecopsloscalidosos:hgUQd6hu0cDRbtA3Ig1V1TN0
+    on_success: always  # change: send a notification when the build status changes.
+    on_failure: always  # always: always send a notification.
+    if: branch = master
