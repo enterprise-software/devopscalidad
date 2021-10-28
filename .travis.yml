@@ -17,15 +17,19 @@ before_install:
   - echo "$HEROKU_API_KEY" | docker login --username="$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 addons:
-    sonarcloud:
-        organization: "devsecopslocalidosos"
-        token:
-            secure: Rah/OHnpHZEiiF0fnOcvdfmXHvDnLhiFeHA0GfeVM+DKKTjWuh1ucxNNl2JvmXsj2ED/3zbvqN3+sv4VHKDevdyJXWvSZ8CMHXtVBwgOA7tjHA4efCSY71+6sQlMd0Y3rygaT1hnIVGY8XejY/OQe4281U8Ep0eahxV3oepEktpe/PLTVuPM483SlvSe6Z284pdJm+TjuirWCjoY23kNGpuwOmmoqhKJ/Dtau0jft2nj/aekxx7DO1Ipoh7ReUxA7jmTP3Me0P1tfrEKn/agHzQaHezse+eySjs+6zPCXDqC4TaE/kSsLAbM/RyA3UwlkchxEfBDZ4JiSMvwZqs+e4AUC05qy367MMqXKvhKAGTrSxny0C5PECryGL7oZOBSdeAxOqkKohr0Y48gTKBeALmy5TvnH73UIBx3IzkOe750Gf3CZoR5svwzrCJGIje73tIkDu9nZ8rcKbwrSny0Mm9tqrttmwNrI2/7F6Bx9BxYvX2m4R3ZucikuorQ6LEbUoQ7cP4+hhs0jk/sTwWflyB0bTRLisp5AvJJnSR8P8x/aUAoZstB0QOFdHZ2AgqD3Ua95ACCq/k2rgdwOXJHWWIUChn1RTDLiHy7zk/q3o58HDRwEtJe1xtzxig3SifOoLFBE5cStz5juA0fv35ULbP7W7ykuHOwqPP0vgaveac=
+  sonarcloud:
+    organization: "enterprise-software"
+    token:
+      secure: "vUgT92jZqbyz6X2S0A6Nimu2QUYesgPR1lldZm2C/mj6zRFo/0cB1cDI7/NmbomG+QkP5/Id6+TLMiZcPBezmn+RJNqJ/gkO0dQdhMweg0uLpmFl5N/xtm/9+yw3595CIoV9+4WCKftwY4I0XHCG6NU2/I/jZiqnEgixFcrZcq95UHv0YV5PCJHQ79lr3aQMOgT8kJdZ6fU0nWx+ZdbS8yTCWgct8jY+gu9g6fv1mVYNeg14rbJAa/242oIpHsVvfngM1jMWsp1E+aBV3zR1kNBd0k70PejVJI9M2yswVLn7wFVDU0nj8EXsqDgUknCmcb2YTrGoSMpyY393oBF7IQkw6r1CDgzlS0DCjtJupxH87u+JRk+ZsK8PGN1T8V9MwkRwMNMmPFXxUUeQVR60VE/FLH8+LQmAP/HCC2O5SOQuTdU2BLlUo0H62vEPye2ZWg4t7ysPu0bo11aBpF9Qwlw3NT+ltp7z69Sm5qHaxYCPHg0IAeMhYcXEV9JN5ihHATYi1fdtuEzJh7GeKQ9borFhDzq4HJhfiwBdV1C47UcLgPF02Av7e77DleYoDx4ZgwYzI38pxzhEueF8NiCmW7z5EsUaH2p19D8lur0lddMzJiJfe8fp15K8vFB35lo9x0DCEbIXNlvNlOlpdDjfxNU3IovXqQ+a3ZjlVeYDftA="
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
 jobs:
   include:
     - stage: build
       script:
-        - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker build -t travis-ci-build-stages-demo -f Dockerfile.dev .
         - docker images
