@@ -39,6 +39,6 @@ jobs:
 
 notifications:
   slack: devsecopsloscalidosos:hgUQd6hu0cDRbtA3Ig1V1TN0
-    on_success: always  # change: send a notification when the build status changes.
-    on_failure: always  # always: always send a notification.
-    if: branch = master
+#    on_success: always  # change: send a notification when the build status changes.
+#    on_failure: always  # always: always send a notification.
+#    if: branch = master
