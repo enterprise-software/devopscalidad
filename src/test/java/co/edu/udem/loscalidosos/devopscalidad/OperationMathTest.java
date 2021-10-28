@@ -12,7 +12,7 @@ public class OperationMathTest {
         Long number1 = 250L;
         Long number2 = 100L;
         OperationMath operationMath = new OperationMath();
-        Long expected = 350L;
+        Long expected = 360L;
         //Act
         Long sum = operationMath.sum(number1, number2);
         //Assert
